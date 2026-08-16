@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { JsonWebTokenError } = require('jsonwebtoken');
 const doctorModel = require('../models/doctorModel');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const appointmentModel = require('../models/appointmentModel');
 
 const changeAvailability = async (req, res) => {

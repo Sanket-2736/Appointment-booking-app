@@ -5,7 +5,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken')
 const validator = require('validator');
 const userModel = require('../models/userModel');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const {v2 : cloudinary} = require('cloudinary');
 const appointmentModel = require('../models/appointmentModel');
 
