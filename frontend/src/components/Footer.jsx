@@ -1,44 +1,51 @@
 import React from 'react';
 import { assets } from '../assets/assets/assets_frontend/assets';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
-    <div className='bg-blue-100 shadow-blue-200 shadow-md my-5 rounded-lg px-6 sm:px-10 lg:px-16 py-6'>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+    <footer className='bg-slate-50 border-t border-slate-200 mt-16 rounded-3xl p-8 sm:p-12 mb-6'>
+      <div className='grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 max-w-6xl mx-auto'>
         {/* Left side */}
-        <div className='flex flex-col items-center sm:items-start'>
-          <img className='mb-4' src={assets.logo} alt='logo' />
-          <p className='text-gray-600 text-center sm:text-left'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis aperiam cum, nisi a vero perferendis. Minima adipisci dignissimos praesentium delectus quidem repellendus tenetur officiis molestiae expedita non hic totam.
+        <div className='flex flex-col items-center sm:items-start text-center sm:text-left'>
+          <img className='w-40 mb-4' src={assets.logo} alt='Prescripto Logo' />
+          <p className='text-slate-500 text-xs sm:text-sm leading-relaxed max-w-sm'>
+            Prescripto is a leading doctor appointment booking platform connecting patients with top certified healthcare professionals seamlessly.
           </p>
         </div>
 
         {/* Center side */}
-        <div className='flex flex-col items-center sm:items-start'>
-          <p className='text-cyan-800 text-lg font-bold mb-2'>COMPANY</p>
-          <ul className='flex flex-col gap-2 text-gray-700'>
-            <li className='hover:translate-y-[-4px] hover:cursor-pointer hover:underline transition-all duration-200'>Home</li>
-            <li className='hover:translate-y-[-4px] hover:cursor-pointer hover:underline transition-all duration-200'>About Us</li>
-            <li className='hover:translate-y-[-4px] hover:cursor-pointer hover:underline transition-all duration-200'>Contact Us</li>
-            <li className='hover:translate-y-[-4px] hover:cursor-pointer hover:underline transition-all duration-200'>Privacy Policy</li>
+        <div className='flex flex-col items-center sm:items-start text-center sm:text-left'>
+          <p className='text-xs font-bold text-slate-800 uppercase tracking-wider mb-4'>COMPANY</p>
+          <ul className='flex flex-col gap-2.5 text-xs sm:text-sm text-slate-600 font-medium'>
+            <li><Link to='/' onClick={() => scrollTo(0,0)} className='hover:text-[#5f6fff] transition-colors'>Home</Link></li>
+            <li><Link to='/doctors' onClick={() => scrollTo(0,0)} className='hover:text-[#5f6fff] transition-colors'>All Doctors</Link></li>
+            <li><Link to='/about' onClick={() => scrollTo(0,0)} className='hover:text-[#5f6fff] transition-colors'>About Us</Link></li>
+            <li><Link to='/contact' onClick={() => scrollTo(0,0)} className='hover:text-[#5f6fff] transition-colors'>Contact Us</Link></li>
+            <li><Link to='/blog' onClick={() => scrollTo(0,0)} className='hover:text-[#5f6fff] transition-colors'>Health Blog</Link></li>
           </ul>
         </div>
 
         {/* Right side */}
-        <div className='flex flex-col items-center sm:items-start'>
-          <h3 className='text-cyan-800 text-lg font-bold mb-2'>GET IN TOUCH</h3>
-          <ul className='text-gray-700'>
-            <li>+91 987 652 1345</li>
-            <li>prescripto.app@email.com</li>
+        <div className='flex flex-col items-center sm:items-start text-center sm:text-left'>
+          <h3 className='text-xs font-bold text-slate-800 uppercase tracking-wider mb-4'>GET IN TOUCH</h3>
+          <ul className='flex flex-col gap-2 text-xs sm:text-sm text-slate-600 font-medium'>
+            <li className='flex items-center gap-2'>
+              <span className='w-2 h-2 rounded-full bg-[#5f6fff]' />
+              +91 987 652 1345
+            </li>
+            <li className='flex items-center gap-2'>
+              <span className='w-2 h-2 rounded-full bg-[#5f6fff]' />
+              support@prescripto.com
+            </li>
           </ul>
         </div>
       </div>
       
-      <hr className='w-full h-1 bg-gray-300 my-4' />
-      <p className='text-center text-gray-700'>
-        Copyright 2025 &copy; Prescripto | All Rights Reserved.
-      </p>
-    </div>
+      <div className='border-t border-slate-200 mt-10 pt-6 text-center text-xs text-slate-400 font-medium'>
+        Copyright 2026 &copy; Prescripto | All Rights Reserved.
+      </div>
+    </footer>
   );
 }
 

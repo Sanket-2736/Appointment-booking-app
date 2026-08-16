@@ -9,7 +9,6 @@ const addDoctor = async (req, res) => {
     try {
         const {email, name, password, speciality, degree, experience, about, fees, address} = req.body;
         const imageFile = req.file;
-        console.log(imageFile)
 
         console.log(req.body);
 

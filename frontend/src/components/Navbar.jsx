@@ -33,6 +33,10 @@ function Navbar() {
             <li className='py-1'>CONTACT</li>
             <hr className="border-none outline-none bg-[#5f6fff] m-auto w-3/5 h-0.5 hidden" />
         </NavLink>
+        <NavLink to='/blog'>
+            <li className='py-1'>HEALTH BLOG</li>
+            <hr className="border-none outline-none bg-[#5f6fff] m-auto w-3/5 h-0.5 hidden" />
+        </NavLink>
       </ul>
       <div className='flex items-center gap-4'>
         {
@@ -65,6 +69,7 @@ function Navbar() {
             <NavLink onClick={() => setShowMenu(false)} to='/doctors'><p className='px-4 py-2 rounded-full inline-block'>ALL DOCTORS</p> </NavLink>
             <NavLink onClick={() => setShowMenu(false)} to='/about'><p className='px-4 py-2 rounded-full inline-block'>ABOUT</p> </NavLink>
             <NavLink onClick={() => setShowMenu(false)} to='/contact'><p className='px-4 py-2 rounded-full inline-block'>CONTACT</p></NavLink>
+            <NavLink onClick={() => setShowMenu(false)} to='/blog'><p className='px-4 py-2 rounded-full inline-block'>HEALTH BLOG</p></NavLink>
           </ul>
         </div>
       </div>

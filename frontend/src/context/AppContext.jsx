@@ -8,7 +8,8 @@ const AppContextProvider = (props) => {
     const currencySymbol = '$';
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [doctors, setDoctors] = useState([]);
-    const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : false);
+    const initialToken = localStorage.getItem('token');
+    const [token, setToken] = useState(initialToken && initialToken !== 'undefined' && initialToken !== 'null' ? initialToken : false);
     const [userData, setUserData] = useState(false);
 
     const getAllDoctors = async () => {
@@ -37,10 +38,14 @@ const AppContextProvider = (props) => {
                 setUserData(data.userData);
             } else {
                 toast.error(data.message);
+                setToken(false);
+                localStorage.removeItem('token');
             }
         } catch (error) {
             toast.error(error.response?.data?.message || "Internal server error!");
             console.error("Error in loading user profile data:", error);
+            setToken(false);
+            localStorage.removeItem('token');
         }
     };
     

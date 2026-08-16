@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/mongodb');
-const cloudinary = require('./config/cloudinary'); // ✅ Import Cloudinary instance
 require('dotenv').config();
 const adminRouter = require('./routes/adminRoutes');
 const doctorRouter = require('./routes/doctorRoutes')

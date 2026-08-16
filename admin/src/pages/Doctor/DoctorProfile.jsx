@@ -17,9 +17,20 @@ function DoctorProfile() {
 
   useEffect(() => {
     if (profileData) {
+      let parsedAddress = { line1: "", line2: "" };
+      if (typeof profileData.address === 'string') {
+        try {
+          parsedAddress = JSON.parse(profileData.address);
+        } catch (e) {
+          console.error("Error parsing address JSON:", e);
+        }
+      } else if (profileData.address) {
+        parsedAddress = profileData.address;
+      }
+
       setEditedData({
         ...profileData,
-        address: profileData.address ? JSON.parse(profileData.address) : { line1: "", line2: "" }
+        address: parsedAddress
       });
     }
   }, [profileData]);
@@ -36,7 +47,7 @@ function DoctorProfile() {
     const { name, value } = e.target;
     setEditedData((prev) => ({
       ...prev,
-      address: { ...prev.address, [name]: value }
+      address: { ...prev?.address, [name]: value }
     }));
   };
 
@@ -48,6 +59,7 @@ function DoctorProfile() {
   };
 
   const handleSave = () => {
+    if (!editedData) return;
     setProfileData({
       ...editedData,
       address: JSON.stringify(editedData.address)
@@ -56,15 +68,28 @@ function DoctorProfile() {
   };
 
   const handleCancel = () => {
-    setEditedData({
-      ...profileData,
-      address: profileData.address ? JSON.parse(profileData.address) : { line1: "", line2: "" }
-    });
+    if (profileData) {
+      let parsedAddress = { line1: "", line2: "" };
+      if (typeof profileData.address === 'string') {
+        try {
+          parsedAddress = JSON.parse(profileData.address);
+        } catch (e) {
+          console.error("Error parsing address JSON:", e);
+        }
+      } else if (profileData.address) {
+        parsedAddress = profileData.address;
+      }
+
+      setEditedData({
+        ...profileData,
+        address: parsedAddress
+      });
+    }
     setIsEdit(false);
   };
 
   return (
-    profileData && (
+    profileData && editedData && (
       <div>
         <div className="flex flex-col gap-4 m-5">
           <div>
@@ -108,7 +133,7 @@ function DoctorProfile() {
                   <input
                     type="number"
                     name="fees"
-                    value={editedData.fees}
+                    value={editedData.fees || ''}
                     onChange={handleChange}
                     className="border p-1 rounded w-20"
                   />
@@ -127,7 +152,7 @@ function DoctorProfile() {
                     <input
                       type="text"
                       name="line1"
-                      value={editedData.address.line1}
+                      value={editedData.address?.line1 || ''}
                       onChange={handleAddressChange}
                       className="border p-1 rounded w-full"
                       placeholder="Line 1"
@@ -135,7 +160,7 @@ function DoctorProfile() {
                     <input
                       type="text"
                       name="line2"
-                      value={editedData.address.line2}
+                      value={editedData.address?.line2 || ''}
                       onChange={handleAddressChange}
                       className="border p-1 rounded w-full mt-2"
                       placeholder="Line 2"
@@ -143,8 +168,9 @@ function DoctorProfile() {
                   </>
                 ) : (
                   <>
-                    {profileData.address.line1} <br />
-                    {profileData.address.line2}
+                    {typeof profileData.address === 'object' 
+                      ? `${profileData.address?.line1 || ''} ${profileData.address?.line2 || ''}`
+                      : profileData.address}
                   </>
                 )}
               </div>
@@ -156,7 +182,7 @@ function DoctorProfile() {
                 type="checkbox"
                 name="available"
                 id="available"
-                checked={editedData.available}
+                checked={Boolean(editedData.available)}
                 onChange={handleCheckboxChange}
                 disabled={!isEdit}
               />
