@@ -15,7 +15,7 @@ const changeAvailability = async (req, res) => {
             message: "Availability updated!"
         });
     } catch (error) {
-        console.log("Error in changing availability: ", error);
+        console.error("Error in changing availability: ", error);
         return res.json({
             success : false, 
             message: "Internal server error! Please try again."
@@ -32,7 +32,7 @@ const doctorsList = async (req, res) => {
             doctors
         });
     } catch (error) {
-        console.log("Error in fetching doctors list: ", error);
+        console.error("Error in fetching doctors list: ", error);
         return res.json({
             success : false, 
             message: "Internal server error! Please try again."
@@ -70,7 +70,7 @@ const doctorLogin = async (req, res) => {
         });
 
     } catch (error) {
-        console.log("Error in doctor login: ", error);
+        console.error("Error in doctor login: ", error);
         return res.json({
             success : false, 
             message: "Internal server error! Please try again."
@@ -88,7 +88,7 @@ const getAppointments = async (req, res) => {
             appointments
         })
     } catch (error) {
-        console.log("Error in fetching doctor appointments: ", error);
+        console.error("Error in fetching doctor appointments: ", error);
         return res.json({
             success : false, 
             message: "Internal server error! Please try again."
@@ -115,7 +115,7 @@ const markAsComplete = async (req, res) => {
             message : "Mark failed!"
         })
     } catch (error) {
-        console.log("Error in marking appointment complete: ", error);
+        console.error("Error in marking appointment complete: ", error);
         return res.json({
             success : false, 
             message: "Internal server error! Please try again."
@@ -142,7 +142,7 @@ const appointmentCancel = async (req, res) => {
             message : "Cancellation failed!"
         })
     } catch (error) {
-        console.log("Error in cancelling appointment: ", error);
+        console.error("Error in cancelling appointment: ", error);
         return res.json({
             success : false, 
             message: "Internal server error! Please try again."
@@ -174,7 +174,7 @@ const docDashBoard = async (req, res) => {
             earnings,
             appointments: appointments.length,
             patients: patients.length,
-            latestAppointments : appointments.reverse().slice(0, 5)
+            latestAppointments : [...appointments].reverse().slice(0, 5)
         }
 
         return res.json({
@@ -183,7 +183,7 @@ const docDashBoard = async (req, res) => {
             message: "Dashboard data fetched successfully!"
         })
     } catch (error) {
-        console.log("Error in fetching doctor dashboard: ", error);
+        console.error("Error in fetching doctor dashboard: ", error);
         return res.json({
             success : false, 
             message: "Internal server error! Please try again."
@@ -202,7 +202,7 @@ const docProfile = async (req, res) =>{
             message: "Doctor profile fetched successfully!"
         })
     } catch (error) {
-        console.log("Error in fetching doctor profile: ", error);
+        console.error("Error in fetching doctor profile: ", error);
         return res.json({
             success : false, 
             message: "Internal server error! Please try again."
@@ -219,7 +219,7 @@ const updateProfile = async (req, res) => {
             message: "Doctor profile updated successfully!"
         })
     } catch (error) {
-        console.log("Error in updating doctor profile: ", error);
+        console.error("Error in updating doctor profile: ", error);
         return res.json({
             success : false, 
             message: "Internal server error! Please try again."

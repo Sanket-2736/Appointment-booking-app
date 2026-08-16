@@ -120,7 +120,7 @@ function Appointment() {
       }
     } catch (error) {
       toast.error("Internal server error! Please try again!");
-      console.log("Error in booking appointment: ", error);
+      console.error("Error in booking appointment: ", error);
     }
   };
   

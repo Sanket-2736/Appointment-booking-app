@@ -5,7 +5,6 @@ const authDoctor = async (req, res, next) => {
     try {        
         const {dtoken} = req.headers;
         if(!dtoken){
-            console.log("Token not found!");
             return res.json({
                 success: false,
                 message: "Unauthorised login!"
@@ -16,7 +15,7 @@ const authDoctor = async (req, res, next) => {
         req.body.docId = token_decoded.id;
         next();
     } catch (error) {
-        console.log("Error in user middleware: ", error);
+        console.error("Error in doctor middleware: ", error);
         return res.json({
             success: false,
             message: "Unauthorised login!"

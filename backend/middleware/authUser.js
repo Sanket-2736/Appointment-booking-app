@@ -5,7 +5,6 @@ const authUser = async (req, res, next) => {
     try {        
         const {token} = req.headers;
         if(!token){
-            console.log("Token not found!");
             return res.json({
                 success: false,
                 message: "Unauthorised login!"
@@ -16,7 +15,7 @@ const authUser = async (req, res, next) => {
         req.body.userId = token_decoded.id;
         next();
     } catch (error) {
-        console.log("Error in user middleware: ", error);
+        console.error("Error in user middleware: ", error);
         return res.json({
             success: false,
             message: "Unauthorised login!"

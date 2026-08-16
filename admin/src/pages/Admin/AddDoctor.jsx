@@ -40,12 +40,7 @@ function AddDoctor() {
         formData.append('experience', experience);
         formData.append('address', JSON.stringify({line1:address1, line2:address2}));
 
-        formData.forEach((value, key) => {
-            console.log(`${key}: ${value}`);
-        });
-
         const {data} = await axios.post(backendUrl+'/api/admin/add-doctor', formData, {headers:{aToken}});
-        console.log(data)
         if(data.success){
             toast.success(data.message);
             setDocImg(false);
@@ -61,11 +56,10 @@ function AddDoctor() {
             setFees('')
         } else {
             toast.error(data.message);
-            console.log("Error in adding doctor: ", error)
         }
         
     } catch (error) {
-        console.log(error);
+        console.error("Error in adding doctor: ", error);
         toast.error('Internal server error!');
     }
   }

@@ -12,8 +12,8 @@ const AdminContextProvider = (props) => {
     const [dashData, setDashData] = useState(false);
 
     const getAllDoctors = async () => {
-        const {data} = await axios.get(backendUrl+'/api/admin/all-doctors', {headers:{aToken}})
         try {
+            const {data} = await axios.get(backendUrl+'/api/admin/all-doctors', {headers:{aToken}})
             if(data.success){
                 setDoctors(data.doctors);
             } else {
@@ -21,15 +21,12 @@ const AdminContextProvider = (props) => {
             }
         } catch (error) {
             toast.error('Internal server error, try again!');
-            console.log(data.message)
         }
     }
 
     const changeAvailability = async (docId) => {
-        const {data} = await axios.post(backendUrl+'/api/admin/change-availability', {docId}, {headers:{aToken}})
-
         try {
-            console.log(data);
+            const {data} = await axios.post(backendUrl+'/api/admin/change-availability', {docId}, {headers:{aToken}})
             if(data.success){
                 toast.success(data.message);
                 getAllDoctors();
@@ -38,7 +35,6 @@ const AdminContextProvider = (props) => {
             }
         } catch (error) {
             toast.error("Internal server error!");
-            console.log("Error in changing availability: ", error);
         }
     }
 
@@ -46,14 +42,12 @@ const AdminContextProvider = (props) => {
         try {
             const {data} = await axios.get(backendUrl+'/api/admin/appointments', {headers:{aToken}})
             if(data.success){
-                console.log(data.appointments)
                 setAppointments(data.appointments)
             } else {
                 toast.error(data.message);
             }
         } catch (error) {
             toast.error("Internal server error!");
-            console.log("Error in fetching appointments: ", error);
         }
     }
 
@@ -80,18 +74,15 @@ const AdminContextProvider = (props) => {
     }
 
     const fetchDashData = async () =>{
-        const {data} = await axios.get(backendUrl+'/api/admin/dashboard', {headers:{aToken}});
         try {
-            console.log(data) 
+            const {data} = await axios.get(backendUrl+'/api/admin/dashboard', {headers:{aToken}});
             if(data.success){
                 setDashData(data.dashData);
-                toast.success("Data fetched successfully!")
             } else {
                 toast.error(data.message)
             }
         } catch (error) {
             toast.error(error.message || "Internal server error!");
-            console.log("Error in fetching data: ", error)
         }
     }
 

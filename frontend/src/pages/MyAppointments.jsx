@@ -54,7 +54,6 @@ function MyAppointments() {
 
       if(data.success){
         toast.success("Payment successfull");
-        console.log(data.order);
         initPay(data.order);
       }
     } catch (error) {
@@ -73,7 +72,6 @@ function MyAppointments() {
       order_id : order.id,
       receipt : order.receipt,
       handler : async (res) => {
-        console.log(res);
         try {
           const {data} = await axios.post(backendUrl+'/api/user/verify-payment', res, {headers:{token}});
 

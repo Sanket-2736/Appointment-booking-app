@@ -14,7 +14,6 @@ const registerUser = async (req, res) => {
         const {email, name, password, phone} = req.body;
 
         if(!email || !password || !name || !phone){
-            console.log(req.body);
             return res.json({
                 success: false,
                 message: "Some credentials missing, check again!"
@@ -24,7 +23,6 @@ const registerUser = async (req, res) => {
         const isEmailValid = validator.isEmail(email);
 
         if(!isEmailValid){
-            console.log("Invalid email!");
             return res.json({
                 success: false,
                 message: "Invalid email!"
@@ -33,7 +31,6 @@ const registerUser = async (req, res) => {
 
         const userEmail = await userModel.findOne({email});
         if(userEmail){
-            console.log('User already exists: ', userEmail);
             return res.json({
                 success: false,
                 message: "User already exists!"
@@ -58,7 +55,7 @@ const registerUser = async (req, res) => {
         })
 
     } catch (error) {
-        console.log("Error in adding user: ", error);
+        console.error("Error in adding user: ", error);
         return res.json({
             success: false,
             message: "Internal server error! Please try again."
@@ -71,7 +68,6 @@ const loginUser = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            console.log(req.body);
             return res.json({
                 success: false,
                 message: "Please enter both email and password!"
@@ -103,7 +99,7 @@ const loginUser = async (req, res) => {
             token
         });
     } catch (error) {
-        console.log("Error in user login: ", error);
+        console.error("Error in user login: ", error);
         return res.json({
             success: false,
             message: "Internal server error! Please try again."
@@ -117,7 +113,7 @@ const getProfile = async (req, res) => {
         const userData = await userModel.findById(userId).select('-password');
         return res.json({success: true, userData});
     } catch (error) {
-        console.log("Error in fetching profile data: ", error);
+        console.error("Error in fetching profile data: ", error);
         return res.json({
             success: false,
             message: "Internal server error! Please try again."
@@ -130,15 +126,6 @@ const updateProfile = async (req, res) => {
         const {name, phone, address, dob, gender} = req.body;
         const userId = req.body.userId;
         const imageFile = req.file;
-        console.log(req.body);
-        console.log("user id: ", userId)
-
-        if(imageFile){
-            console.log("Image file found!")
-        }
-
-        console.log(req.body)
-        console.log(userId);
 
         if(!name || !phone || !dob || !gender){
             return res.json({
@@ -171,7 +158,7 @@ const updateProfile = async (req, res) => {
         })
 
     } catch (error) {
-        console.log("Error in updating profile data: ", error);
+        console.error("Error in updating profile data: ", error);
         return res.json({
             success: false,
             message: "Internal server error! Please try again."
@@ -182,10 +169,8 @@ const updateProfile = async (req, res) => {
 const bookAppointment = async (req, res) => {
     try {
         const { userId, docId, slotDate, slotTime } = req.body;
-        console.log("Received Request:", req.body);
 
         const docData = await doctorModel.findById(docId).select('-password');
-        console.log("Doctor Data:", docData);
 
         if (!docData.available) {
             return res.json({ success: false, message: "Doctor is not available for this slot." });
@@ -193,16 +178,12 @@ const bookAppointment = async (req, res) => {
 
         let slots_booked = docData.slots_booked || {};
 
-        console.log("Slots Booked Before:", slots_booked);
-
         if (slots_booked[slotDate]?.includes(slotTime)) {
             return res.json({ success: false, message: "Current slot is not available." });
         }
 
         slots_booked[slotDate] = slots_booked[slotDate] || [];
         slots_booked[slotDate].push(slotTime);
-
-        console.log("Updated Slots Booked:", slots_booked);
 
         const userData = await userModel.findById(userId).select('-password');
 
@@ -225,7 +206,7 @@ const bookAppointment = async (req, res) => {
         return res.json({ success: true, message: "Appointment booked successfully!" });
 
     } catch (error) {
-        console.log("Error in booking appointment:", error);
+        console.error("Error in booking appointment:", error);
         return res.json({ success: false, message: "Internal server error! Please try again." });
     }
 };
@@ -240,7 +221,7 @@ const listAppointment = async (req, res) => {
             appointments  
         })
     } catch (error) {
-        console.log("Error in listing appointment:", error);
+        console.error("Error in listing appointment:", error);
         return res.json({ success: false, message: "Internal server error! Please try again." });
     }
 }
@@ -296,7 +277,7 @@ const cancelRequirements = async (req, res) => {
         });
 
     } catch (error) {
-        console.log("Error in cancelling appointment:", error);
+        console.error("Error in cancelling appointment:", error);
         return res.json({ success: false, message: "Internal server error! Please try again." });
     }
 };
@@ -305,8 +286,6 @@ const cancelRequirements = async (req, res) => {
 //     key_id: process.env.RAZORPAY_KEY_ID || "",
 //     key_secret: process.env.RAZORPAY_KEY_SECRET || ""
 // });
-
-
 
 const paymentRazorpay = async (req, res) => {
     try {
@@ -333,16 +312,15 @@ const paymentRazorpay = async (req, res) => {
             order
         })
     } catch (error) {
-        console.log("Error in making payment of appointment:", error);
+        console.error("Error in making payment of appointment:", error);
         return res.json({ success: false, message: "Internal server error! Please try again." });
     }
 }
 
 const verifyPayment = async (req, res) => {
     try {
-        const {razorpay_order_id}         = req.body;
+        const {razorpay_order_id} = req.body;
         const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
-        console.log(orderInfo);
 
         if(orderInfo.status === 'paid'){
             await appointmentModel.findByIdAndUpdate(orderInfo.receipt, {payment: true});
@@ -358,7 +336,7 @@ const verifyPayment = async (req, res) => {
             })
         }
     } catch (error) {
-        console.log("Error in verifying payment of appointment:", error);
+        console.error("Error in verifying payment of appointment:", error);
         return res.json({ success: false, message: "Internal server error! Please try again." });
     }
 }

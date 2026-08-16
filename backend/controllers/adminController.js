@@ -10,10 +10,7 @@ const addDoctor = async (req, res) => {
         const {email, name, password, speciality, degree, experience, about, fees, address} = req.body;
         const imageFile = req.file;
 
-        console.log(req.body);
-
         if(!name || !password || !email || !speciality || !degree || !experience || !about || !fees || !address){
-            console.log("Some details missing!");
             return res.json({
                 success : false,
                 message : "Some details missing!",
@@ -21,16 +18,13 @@ const addDoctor = async (req, res) => {
         }
 
         if(!imageFile){
-            console.log("Image file missing!");
             return res.json({
                 success : false,
                 message : "Image file missing!",
             });
         }
 
-
         if(!validator.isEmail(email)){
-            console.log("Invalid email format!");
             return res.json({
                 success : false,
                 message : "Invalid email format!",
@@ -38,7 +32,6 @@ const addDoctor = async (req, res) => {
         }
 
         if(password.length < 8){
-            console.log("Password must have atleast 8 characters!");
             return res.json({
                 success : false,
                 message : "Password must have atleast 8 characters!",
@@ -61,14 +54,13 @@ const addDoctor = async (req, res) => {
         const newDoc = new doctorModel(doctorData);
         await newDoc.save();
 
-        console.log("Doctor added successfully!");
         return res.json({
             success : true,
             message : "Doctor Registration successful!"
         })
 
     } catch (error) {
-        console.log("Error in adding doctor: ", error);
+        console.error("Error in adding doctor: ", error);
         return res.json({
             success : false, 
             message : "Internal server error! Try again later."
@@ -79,12 +71,8 @@ const addDoctor = async (req, res) => {
 const loginAdmin = async (req, res) => {
     try {
         const {email, password} = req.body;
-        console.log(req.body);
-        console.log("Env email: ", process.env.ADMIN_EMAIL, " Env passowrd: ", process.env.ADMIN_PASSWORD);
-        
 
         if(process.env.ADMIN_EMAIL != email || process.env.ADMIN_PASSWORD != password){
-            console.log("Admin credentials invalid!");
             return res.json({
                 success : false, 
                 message : "Admin credentials invalid!"
@@ -92,15 +80,13 @@ const loginAdmin = async (req, res) => {
         }
 
         const token = jwt.sign(email+password, process.env.JWT_SECRET);
-        console.log(token)
-        console.log("login successfull")
         return res.json({
             success : true,
             token
         });
         
     } catch (error) {
-        console.log("Error in admin login: ", error);
+        console.error("Error in admin login: ", error);
         return res.json({
             success : false, 
             message : "Internal server error! Try again later."
@@ -111,13 +97,12 @@ const loginAdmin = async (req, res) => {
 const allDoctors = async (req, res) => {
     try {
         const doctors = await doctorModel.find({}).select('-password');
-        console.log(doctors)
         return res.json({
             success : true,
             doctors
         })
     } catch (error) {
-        console.log('Error in fetching doctors: ', error);
+        console.error('Error in fetching doctors: ', error);
         return res.json({
             success : false,
             message : "Internal server error! Try again later."
@@ -133,7 +118,7 @@ const appointmentsAdmin = async (req, res) => {
             appointments
         })
     } catch (error) {
-        console.log("Error in fetching appointments: ", error);
+        console.error("Error in fetching appointments: ", error);
         return res.json({
             success : false,
             message : "Internal server error! Try again later."
@@ -185,7 +170,7 @@ const cancelAppointment = async (req, res) => {
         });
 
     } catch (error) {
-        console.log("Error in cancelling appointment:", error);
+        console.error("Error in cancelling appointment:", error);
         return res.json({ success: false, message: "Internal server error! Please try again." });
     }
 };
@@ -200,7 +185,7 @@ const adminDashBoard = async (req, res) => {
             doctors: doctors.length,
             patients: users.length,
             appointments: appointments.length,
-            latestAppointments : appointments.reverse().slice(0, 5)
+            latestAppointments : [...appointments].reverse().slice(0, 5)
         }
 
         return res.json({
@@ -209,7 +194,7 @@ const adminDashBoard = async (req, res) => {
             message : "Data fetched successfully!"
         })
     } catch (error) {
-        console.log("Error in fetching information:", error);
+        console.error("Error in fetching information:", error);
         return res.json({ success: false, message: "Internal server error! Please try again." });
     }
 }

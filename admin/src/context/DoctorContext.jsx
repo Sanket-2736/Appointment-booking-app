@@ -18,14 +18,13 @@ const DoctorContextProvider = (props) => {
         try {
             const {data} = await axios.get(backendUrl+'/api/doctor/get-appointments',{headers:{dToken}});
             if(data.success){
-                setAppointments(data.appointments.reverse());
-                console.log(data.appointments.reverse());
+                setAppointments([...data.appointments].reverse());
             } else {
                 toast.error(data.message);
             }
         } catch (error) {
             toast.error("Internal server error! Try again later.")
-            console.log("Error in fetching appointments: ", error)
+            console.error("Error in fetching appointments: ", error)
         }
     }
 
@@ -62,7 +61,6 @@ const DoctorContextProvider = (props) => {
         try {
             if(data.success){
                 setDashData(data.dashData);
-                console.log(data.dashData);
             } else {
                 toast.error(data.message);
             }
@@ -76,7 +74,6 @@ const DoctorContextProvider = (props) => {
         try {
             if(data.success){
                 setProfileData(data.profileData);
-                console.log(data.profileData);
             }
         } catch (error) {
             toast.error(error.message)

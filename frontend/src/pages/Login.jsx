@@ -44,7 +44,7 @@ function Login() {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Internal server error!");
-      console.log("Error in login: ", error);
+      console.error("Error in login: ", error);
     }
   };
 

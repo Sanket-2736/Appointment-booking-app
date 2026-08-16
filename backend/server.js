@@ -23,12 +23,6 @@ app.use('/api/user', userRouter);
 
 connectDB(); 
 
-// console.log("Cloudinary Config:", {
-//     cloud_name: process.env.CLOUDINARY_NAME,
-//     api_key: process.env.CLOUDINARY_API_KEY,
-//     api_secret: process.env.CLOUDINARY_API_SECRET ? "******" : "Not Set"
-// });
-
 app.listen(port, () => {
     console.log('Backend working at: http://localhost:5000');
 });
